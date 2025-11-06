@@ -1,0 +1,90 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Route {
+  id              String   @id @default(uuid())
+  routeId         String   @unique
+  vesselType      String
+  fuelType        String
+  year            Int
+  ghgIntensity    Float
+  fuelConsumption Float
+  distance        Float
+  totalEmissions  Float
+  isBaseline      Boolean  @default(false)
+  windFactor      Float    @default(1.0) // f_wind: wind-assisted propulsion reward factor
+  electricityMJ   Float    @default(0.0) // Ek: electricity from Onshore Power Supply (MJ)
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+  fuelCompositions FuelComposition[]
+
+  @@index([year])
+  @@index([vesselType])
+  @@index([fuelType])
+}
+
+model FuelComposition {
+  id              String   @id @default(uuid())
+  routeId         String
+  route           Route    @relation(fields: [routeId], references: [id], onDelete: Cascade)
+  fuelName        String   // Name/type of fuel (e.g., "HFO", "LNG", "MGO")
+  massTonnes      Float    // Mi: Mass of fuel in tonnes
+  wtTFactor       Float    // CO2eq_WtT,i: Well-to-Tank GHG emission factor (gCO2e/MJ)
+  lcvMJPerKg      Float    // LCVi: Lower Calorific Value (MJ/kg)
+  ttWFactor       Float    // TtW CO2 equivalent emissions factor (gCO2e/MJ)
+  methaneSlipCoeff Float?  // C_slip,j: Non-combusted fuel coefficient (for LNG, etc.)
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  @@index([routeId])
+}
+
+model ShipCompliance {
+  id         String   @id @default(uuid())
+  shipId     String
+  year       Int
+  cbGco2eq   Float
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  @@unique([shipId, year])
+  @@index([shipId])
+  @@index([year])
+}
+
+model BankEntry {
+  id          String   @id @default(uuid())
+  shipId      String
+  year        Int
+  amountGco2eq Float
+  createdAt   DateTime @default(now())
+
+  @@index([shipId])
+  @@index([year])
+}
+
+model Pool {
+  id        String   @id @default(uuid())
+  year      Int
+  createdAt DateTime @default(now())
+  members   PoolMember[]
+}
+
+model PoolMember {
+  id        String   @id @default(uuid())
+  poolId    String
+  shipId    String
+  cbBefore  Float
+  cbAfter   Float
+  pool      Pool     @relation(fields: [poolId], references: [id], onDelete: Cascade)
+
+  @@index([poolId])
+  @@index([shipId])
+}
+
