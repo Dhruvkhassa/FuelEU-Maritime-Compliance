@@ -1,21 +1,27 @@
-import { render, screen } from '@testing-library/react';
-import { describe, expect, it } from 'vitest';
+import { render, screen } from '../test-utils';
+import { describe, expect, it, vi } from 'vitest';
 import App from '../adapters/ui/App';
 
+// Mock the route service response
+vi.mock('../adapters/infrastructure/ApiRouteService', () => ({
+  ApiRouteService: class {
+    getAllRoutes = vi.fn().mockResolvedValue([])
+    setBaseline = vi.fn().mockResolvedValue({})
+    getComparison = vi.fn().mockResolvedValue({ baseline: {}, comparisons: [] })
+  }
+}));
+
 describe('App', () => {
-  it('renders navigation tabs', async () => {
+  it('renders main navigation', () => {
     render(<App />);
     
-    // Find the tabs by their accessible role and name
-    const routesTab = screen.getByRole('tab', { name: /Routes/i });
-    const compareTab = screen.getByRole('tab', { name: /Compare/i });
-    const bankingTab = screen.getByRole('tab', { name: /Banking/i });
-    const poolingTab = screen.getByRole('tab', { name: /Pooling/i });
+    // Test main navigation elements
+    expect(screen.getByRole('navigation')).toBeInTheDocument();
     
-    // Assert that each tab is present
-    expect(routesTab).toBeInTheDocument();
-    expect(compareTab).toBeInTheDocument();
-    expect(bankingTab).toBeInTheDocument();
-    expect(poolingTab).toBeInTheDocument();
+    // Test individual tabs
+    ['Routes', 'Compare', 'Banking', 'Pooling'].forEach(tabName => {
+      expect(screen.getByRole('tab', { name: new RegExp(tabName, 'i') }))
+        .toBeInTheDocument();
+    });
   });
 });
