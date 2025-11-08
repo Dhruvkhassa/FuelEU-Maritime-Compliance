@@ -146,10 +146,8 @@ export default function RoutesTab({ isDark = true }: RoutesTabProps) {
                     Year
                   </th>
                   <th className={`px-6 py-4 text-left text-xs font-semibold ${labelClass} uppercase tracking-wider`}>
-                    GHG Intensity
-                  </th>
-                  <th className={`px-6 py-4 text-left text-xs font-semibold ${labelClass} uppercase tracking-wider`}>
-                    Calculated
+                    <div>GHG Intensity</div>
+                    <div className="text-[10px] mt-1">gCO₂e/MJ</div>
                   </th>
                   <th className={`px-6 py-4 text-left text-xs font-semibold ${labelClass} uppercase tracking-wider`}>
                     Fuel (t)
@@ -206,21 +204,8 @@ export default function RoutesTab({ isDark = true }: RoutesTabProps) {
                         <span className={`text-sm font-medium ${
                           route.ghgIntensity > 89.3368 ? 'text-red-600' : 'text-green-600'
                         }`}>
-                          {route.ghgIntensity.toFixed(2)} gCO₂e/MJ
+                          {route.ghgIntensity.toFixed(2)}
                         </span>
-                      </td>
-                      <td className="px-6 py-4 whitespace-nowrap">
-                        {route.fuelCompositions && route.fuelCompositions.length > 0 ? (
-                          <span className={`text-sm font-semibold ${
-                            route.ghgIntensity > 89.3368 ? 'text-red-500' : 'text-green-500'
-                          }`}>
-                            ✓ Calculated
-                          </span>
-                        ) : (
-                          <span className={`text-sm ${labelClass}`}>
-                            Stored
-                          </span>
-                        )}
                       </td>
                       <td className={`px-6 py-4 whitespace-nowrap text-sm ${labelClass}`}>
                         {route.fuelConsumption.toLocaleString()}
@@ -263,7 +248,7 @@ export default function RoutesTab({ isDark = true }: RoutesTabProps) {
                     </tr>
                     {selectedRoute?.id === route.id && (
                       <tr key={`${route.id}-details`}>
-                        <td colSpan={9} className="px-6 py-4">
+                        <td colSpan={10} className="px-6 py-4">
                           <CalculationBreakdown 
                             route={route} 
                             isDark={isDark}
