@@ -1,0 +1,11 @@
+{
+  "name": "fuel-eu-monorepo",
+  "private": true,
+  "scripts": {
+    "dev": "concurrently \"npm --prefix backend run dev\" \"npm --prefix frontend run dev\"",
+    "test": "npm --prefix backend test && npm --prefix frontend test"
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.0"
+  }
+}
