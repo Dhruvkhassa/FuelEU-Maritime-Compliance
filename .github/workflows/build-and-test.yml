@@ -33,7 +33,7 @@ jobs:
         with:
           node-version: 18
       - name: Install backend deps
-        run: npm ci
+        run: npm install
       - name: Generate Prisma Client
         run: npm run db:generate
       - name: Run database migrations
@@ -59,7 +59,7 @@ jobs:
         with:
           node-version: 18
       - name: Install frontend deps
-        run: npm ci
+        run: npm install
       - name: Build frontend
         run: npm run build
         env:
