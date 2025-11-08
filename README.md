@@ -150,6 +150,21 @@ cd backend
 npm test
 ```
 
+## Screenshots
+
+The repository includes UI screenshots captured from the running application. Open the `screenshots/` folder to view them.
+
+Preview (click to open in GitHub):
+
+![Routes](screenshots/routes.jpg)
+
+![Compare](screenshots/compare.jpg)
+
+![Banking](screenshots/banking.jpg)
+
+![Pooling](screenshots/pooling.jpg)
+
+
 ### Frontend Tests
 ```bash
 cd frontend
