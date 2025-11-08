@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Route } from '../../../core/domain/Route';
 import { ApiRouteService } from '../../../adapters/infrastructure/ApiRouteService';
 import LoadingSpinner from './LoadingSpinner';
@@ -169,10 +169,9 @@ export default function RoutesTab({ isDark = true }: RoutesTabProps) {
                 </tr>
               </thead>
               <tbody className={isDark ? 'bg-black/20 divide-y divide-gray-800' : 'bg-white divide-y divide-gray-200'}>
-                {routes.map((route, index) => (
-                  <>
+                {routes.map((route) => (
+                  <React.Fragment key={route.id}>
                     <tr 
-                      key={route.id} 
                       className={isDark ? 'hover:bg-gray-900/50' : 'hover:bg-blue-50/50'} 
                       style={{ transition: 'background-color 0.15s' }}
                     >
@@ -272,7 +271,7 @@ export default function RoutesTab({ isDark = true }: RoutesTabProps) {
                         </td>
                       </tr>
                     )}
-                  </>
+                  </React.Fragment>
                 ))}
               </tbody>
             </table>
