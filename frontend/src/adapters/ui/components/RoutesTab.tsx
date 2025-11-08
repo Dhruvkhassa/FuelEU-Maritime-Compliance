@@ -174,20 +174,9 @@ export default function RoutesTab({ isDark = true }: RoutesTabProps) {
                       style={{ transition: 'background-color 0.15s' }}
                     >
                       <td className="px-6 py-4 whitespace-nowrap">
-                        <div className="flex items-center space-x-4">
-                          <span className={`text-sm font-semibold ${route.isBaseline ? (isDark ? 'text-blue-300' : 'text-blue-600') : textClass}`}>
-                            {route.routeId}
-                          </span>
-                          {route.isBaseline && (
-                            <span className={`px-2 py-1 text-xs font-medium rounded-full ${
-                              isDark 
-                                ? 'bg-blue-900/50 text-blue-300 border border-blue-700/50'
-                                : 'bg-blue-100 text-blue-800 border border-blue-200'
-                            }`}>
-                              Baseline
-                            </span>
-                          )}
-                        </div>
+                        <span className={`text-sm font-semibold ${route.isBaseline ? (isDark ? 'text-blue-300' : 'text-blue-600') : textClass}`}>
+                          {route.routeId}
+                        </span>
                       </td>
                       <td className={`px-6 py-4 whitespace-nowrap text-sm ${labelClass}`}>
                         {route.vesselType}
